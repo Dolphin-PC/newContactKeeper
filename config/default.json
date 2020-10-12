@@ -1,0 +1,4 @@
+{
+   "mongoURI": "mongodb+srv://Dolphin:pchany110!@cluster0.hql0g.gcp.mongodb.net/Contact_Keeper?retryWrites=true&w=majority",
+   "jwtSecret": "Secret"
+}
