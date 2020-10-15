@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import ContactContext from "../../context/contact/contactContext";
@@ -12,6 +13,20 @@ const ContactForm = () => {
       phone: "",
       type: "personal",
    });
+   const { addContact, current, clearCurrent, updateContact } = contactContext;
+
+   useEffect(() => {
+      if (current !== null) {
+         setContact(current);
+      } else {
+         setContact({
+            name: "",
+            email: "",
+            phone: "",
+            type: "personal",
+         });
+      }
+   }, [current, contactContext]);
 
    const { name, email, phone, type } = contact;
 
@@ -20,17 +35,17 @@ const ContactForm = () => {
 
    const onSubmit = (e) => {
       e.preventDefault();
-      contactContext.addContact(contact);
-      setContact({
-         name: "",
-         email: "",
-         phone: "",
-         type: "personal",
-      });
+      if (current !== null) {
+         updateContact(contact);
+      } else {
+         addContact(contact);
+      }
    };
    return (
       <form onSubmit={onSubmit}>
-         <h2 className="text-primary">Add Contact</h2>
+         <h2 className="text-primary">
+            {current ? "Update Contact" : "Add Contact"}
+         </h2>
          <input
             type="text"
             placeholder="name"
@@ -60,7 +75,7 @@ const ContactForm = () => {
             checked={type === "personal"}
             onChange={onChange}
          />{" "}
-         Personal{" "}
+         Personal
          <input
             type="radio"
             name="type"
@@ -68,11 +83,23 @@ const ContactForm = () => {
             checked={type === "professional"}
             onChange={onChange}
          />{" "}
-         Professional{" "}
+         Professional
+         {current ? (
+            <div>
+               <button
+                  className="btn btn-block btn-light"
+                  onClick={clearCurrent}
+               >
+                  Clear
+               </button>
+            </div>
+         ) : (
+            ""
+         )}
          <div>
             <input
                type="submit"
-               value="Add Contact"
+               value={current ? "Update Contact" : "Add Contact"}
                className="btn btn-primary btn-block"
             />
          </div>

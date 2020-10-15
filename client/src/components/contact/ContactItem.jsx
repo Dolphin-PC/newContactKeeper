@@ -6,11 +6,8 @@ import { useContext } from "react";
 const ContactItem = ({ contact }) => {
    const { name, email, phone, type, id } = contact;
    const contactContext = useContext(ContactContext);
-   const { deleteContact } = contactContext;
+   const { deleteContact, setCurrent } = contactContext;
 
-   const onDelete = () => {
-      deleteContact(id);
-   };
    return (
       <div className="card bg-light">
          <h3 className="text-primary text-left">
@@ -38,8 +35,16 @@ const ContactItem = ({ contact }) => {
             )}
          </ul>
          <p>
-            <button className="btn btn-dark btn-sm">Edit</button>
-            <button className="btn btn-danger btn-sm" onClick={onDelete}>
+            <button
+               className="btn btn-dark btn-sm"
+               onClick={() => setCurrent(contact)}
+            >
+               Edit
+            </button>
+            <button
+               className="btn btn-danger btn-sm"
+               onClick={() => deleteContact(id)}
+            >
                Delete
             </button>
          </p>
