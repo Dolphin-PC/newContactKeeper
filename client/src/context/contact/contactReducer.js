@@ -4,8 +4,6 @@ import {
    CLEAR_FILTER,
    DELETE_CONTACT,
    FILTER_CONTACTS,
-   REMOVE_ALERT,
-   SET_ALERT,
    SET_CURRENT,
    UPDATE_CONTACT,
 } from "../types";
