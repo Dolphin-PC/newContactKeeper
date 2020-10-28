@@ -15,6 +15,12 @@ import {
 } from "../types";
 import setAuthToken from "../../utils/setAuthToken";
 
+const config = {
+   headers: {
+      "Content-Type": "application/json",
+   },
+};
+
 const AuthState = (props) => {
    const initialState = {
       token: localStorage.getItem("token"),
@@ -48,12 +54,6 @@ const AuthState = (props) => {
 
    // Register User
    const register = async (formData) => {
-      const config = {
-         headers: {
-            "Content-Type": "application/json",
-         },
-      };
-
       try {
          const res = await axios.post("/api/user", formData, config);
 
@@ -71,8 +71,21 @@ const AuthState = (props) => {
    };
 
    // Login User
-   const logIn = () => {
-      return alert("login User");
+   const logIn = async (formData) => {
+      try {
+         const res = await axios.post("/api/auth", formData, config);
+
+         dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data,
+         });
+         loadUser();
+      } catch (err) {
+         dispatch({
+            type: LOGIN_FAIL,
+            payload: err.response.data.msg,
+         });
+      }
    };
 
    // Logout

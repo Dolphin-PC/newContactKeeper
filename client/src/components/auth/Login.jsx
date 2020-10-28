@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 
-const Login = () => {
+import AlertContext from "../../context/alert/alertContext";
+import AuthContext from "../../context/auth/authContext";
+
+const Login = (props) => {
+   const alertContext = useContext(AlertContext);
+   const authContext = useContext(AuthContext);
+
+   const { setAlert } = alertContext;
+   const { logIn, error, clearErrors, isAuthenticated } = authContext;
+
+   useEffect(() => {
+      if (isAuthenticated) {
+         props.history.push("/");
+      }
+      if (error) {
+         setAlert(error, "danger");
+         clearErrors();
+      }
+   }, [props.history, isAuthenticated, error]);
+
    const [user, setUser] = useState({
       email: "",
       password: "",
@@ -9,13 +28,22 @@ const Login = () => {
 
    const { email, password } = user;
 
-   const onChange = (e) => ({
-      ...user,
-      [e.target.name]: e.target.value,
-   });
+   const onChange = (e) => {
+      setUser({
+         ...user,
+         [e.target.name]: e.target.value,
+      });
+   };
    const onSubmit = (e) => {
       e.preventDefault();
-      console.log("Login");
+      if (email === "" || password === "") {
+         setAlert("Please insert email and password", "danger");
+      } else {
+         logIn({
+            email,
+            password,
+         });
+      }
    };
 
    return (
@@ -23,7 +51,7 @@ const Login = () => {
          <h1>
             Contact Keeper <span className="text-primary">Login</span>
          </h1>
-         <form>
+         <form onSubmit={onSubmit}>
             <div className="form-group">
                <label htmlFor="name">Email Address</label>
                <input
@@ -31,6 +59,7 @@ const Login = () => {
                   name="email"
                   value={email}
                   onChange={onChange}
+                  required
                />
             </div>
             <div className="form-group">
@@ -40,6 +69,7 @@ const Login = () => {
                   name="password"
                   value={password}
                   onChange={onChange}
+                  required
                />
             </div>
 
@@ -47,6 +77,7 @@ const Login = () => {
                type="submit"
                value="Login"
                className="btn btn-primary btn-block"
+               onClick={onSubmit}
             />
          </form>
       </div>
