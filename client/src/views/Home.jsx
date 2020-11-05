@@ -9,9 +9,17 @@ import AuthContext from "../context/auth/authContext";
 const Home = (props) => {
    const authContext = useContext(AuthContext);
 
+   const { isAuthenticated } = authContext;
+
    useEffect(() => {
       authContext.loadUser();
    }, []);
+
+   useEffect(() => {
+      if (!isAuthenticated) {
+         props.history.push("/login");
+      }
+   }, [props.history, isAuthenticated]);
 
    return (
       <div className="grid-2">
