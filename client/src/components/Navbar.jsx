@@ -3,12 +3,15 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import AuthContext from "../context/auth/authContext";
+import ContactContext from "../context/contact/contactContext";
 import { useContext } from "react";
 
 const Navbar = ({ title, icon }) => {
    const authContext = useContext(AuthContext);
+   const contactContext = useContext(ContactContext);
 
    const { isAuthenticated, user, logOut } = authContext;
+   const { clearContacts } = contactContext;
 
    const AuthLink = () => {
       return (
@@ -17,7 +20,9 @@ const Navbar = ({ title, icon }) => {
             <li>
                <a href="#!" onClick={logOut}>
                   <i className="fas fa-sign-out-alt"></i>
-                  <span className="hide-sm">Logout</span>
+                  <span className="hide-sm" onClick={clearContacts}>
+                     Logout
+                  </span>
                </a>
             </li>
          </Fragment>

@@ -8,11 +8,13 @@
       "server": "nodemon server.js",
       "client": "npm start --prefix client",
       "clientinstall": "npm install --prefix client",
-      "dev": "concurrently \"npm run server\" \"npm run client\""
+      "dev": "concurrently \"npm run server\" \"npm run client\"",
+      "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
    },
    "author": "PC-dolphin",
    "license": "ISC",
    "dependencies": {
+      "@material-ui/core": "^4.11.0",
       "bcrypt": "^5.0.0",
       "bcryptjs": "^2.4.3",
       "config": "^3.3.2",

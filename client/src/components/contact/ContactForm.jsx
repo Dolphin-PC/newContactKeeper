@@ -13,7 +13,13 @@ const ContactForm = () => {
       phone: "",
       type: "personal",
    });
-   const { addContact, current, clearCurrent, updateContact } = contactContext;
+   const {
+      addContact,
+      current,
+      clearCurrent,
+      updateContact,
+      getContact,
+   } = contactContext;
 
    useEffect(() => {
       if (current !== null) {
@@ -37,6 +43,7 @@ const ContactForm = () => {
       e.preventDefault();
       if (current !== null) {
          updateContact(contact);
+         clearCurrent();
       } else {
          addContact(contact);
       }

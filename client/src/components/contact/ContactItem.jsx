@@ -4,7 +4,7 @@ import ContactContext from "../../context/contact/contactContext";
 import { useContext } from "react";
 
 const ContactItem = ({ contact }) => {
-   const { name, email, phone, type, id } = contact;
+   const { name, email, phone, type, _id } = contact;
    const contactContext = useContext(ContactContext);
    const { deleteContact, setCurrent } = contactContext;
 
@@ -43,7 +43,7 @@ const ContactItem = ({ contact }) => {
             </button>
             <button
                className="btn btn-danger btn-sm"
-               onClick={() => deleteContact(id)}
+               onClick={() => deleteContact(_id)}
             >
                Delete
             </button>
